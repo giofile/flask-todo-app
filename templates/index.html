@@ -64,8 +64,8 @@
     <div class="container">
         <h1>Todo List</h1>
         <ul>
-            {% for task, completed in tasks.items() %}
-            <li>{{ task }} {% if completed %}(Done){% else %}(Pending){% endif %}</li>
+            {% for task, status in tasks.items() %}
+            <li>{{ task }}</li>
             {% endfor %}
         </ul>
         <form action="/add" method="post">

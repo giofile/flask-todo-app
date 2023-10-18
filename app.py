@@ -14,9 +14,7 @@ def index():
 def add_task():
     task_name = request.form['task']
     if task_name not in tasks:
-        tasks[task_name] = False
-    else:
-        print(f"Task '{task_name}' already exists!")
+        tasks[task_name] = None
     return render_template('index.html', tasks=tasks)
 
 
@@ -25,8 +23,6 @@ def remove_task():
     task_name_to_remove = request.form['task']
     if task_name_to_remove in tasks:
         del tasks[task_name_to_remove]
-    else:
-        print(f"Task '{task_name_to_remove}' not found!")
     return render_template('index.html', tasks=tasks)
 
 
