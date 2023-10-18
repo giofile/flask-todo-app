@@ -29,6 +29,6 @@ jobs:
 
       - name: Deploy to Digital Ocean
         run: |
-          ssh root@167.99.32.43 'cd /home/dongi/ToDoApp && git pull origin main && systemctl restart my-application'
+          ssh dongi@167.99.32.43 'cd /home/dongi/ToDoApp && git pull origin main && systemctl restart my-application'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
