@@ -1,8 +1,15 @@
-# app.py
-from flask import Flask, render_template, request
+from flask import Flask, request, render_template, redirect, url_for, flash, g
+import secrets
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 tasks = {}
+
+
+def get_tasks():
+    if 'tasks' not in g:
+        g.tasks = {}
+    return g.tasks
 
 
 @app.route('/')
@@ -25,6 +32,6 @@ def remove_task():
         del tasks[task_name_to_remove]
     return render_template('index.html', tasks=tasks)
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# # This block is necessary when you run the app directly (not during testing)
+# if __name__ == '__main__':
+#     app.run(debug=True)

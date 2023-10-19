@@ -52,11 +52,15 @@
             padding: 0;
         }
 
-
         li {
             margin-bottom: 10px;
         }
-        
+
+        .flash-messages {
+            list-style: none;
+            padding: 0;
+            color: #FF5722;
+        }
     </style>
 </head>
 
@@ -78,6 +82,15 @@
             <input type="text" id="task" name="task" required>
             <button class="button accent-color" type="submit">Remove Task</button>
         </form>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
     </div>
 </body>
 
