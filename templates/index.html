@@ -52,23 +52,19 @@
             padding: 0;
         }
 
+
         li {
             margin-bottom: 10px;
         }
-
-        .flash-messages {
-            list-style: none;
-            padding: 0;
-            color: #FF5722;
-        }
+        
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Todo List</h1>
+        <h1>ToDo List</h1>
         <ul>
-            {% for task, status in tasks.items() %}
+            {% for task in tasks %}
             <li>{{ task }}</li>
             {% endfor %}
         </ul>
@@ -90,7 +86,7 @@
             {% endfor %}
         </ul>
         {% endif %}
-        {% endwith %}
+    {% endwith %}
     </div>
 </body>
 
