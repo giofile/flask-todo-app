@@ -8,6 +8,7 @@ GITHUB_REPO="flask-todo-app"
 SSH_USER="root"
 SERVER_IP="64.225.64.147"
 SSH_PORT="22"
+PRIVATE_KEY_PATH="C:/Users/dongi/.ssh/id_rsa"
 
 # Application Details
 APP_DIR="/var/www/html"
@@ -22,8 +23,8 @@ git clone git@github.com:$GITHUB_USER/$GITHUB_REPO.git
 # Change directory to your Flask app directory
 cd "$APP_DIR"
 
-# Copy files to the server using SCP
-scp -r $GITHUB_REPO/* "$SSH_USER"@"$SERVER_IP":"$APP_DIR"
+# Copy files to the server using SCP with private key
+scp -i "$PRIVATE_KEY_PATH" -r $GITHUB_REPO/* "$SSH_USER"@"$SERVER_IP":"$APP_DIR"
 
 # SSH into the server and execute application commands
 ssh -p "$SSH_PORT" "$SSH_USER"@"$SERVER_IP" << EOF
