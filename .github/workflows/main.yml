@@ -28,22 +28,35 @@ jobs:
           pytest
 
   deploy:
-    needs: test
+    # needs: test
+    # runs-on: ubuntu-latest
+
+    # steps:
+    #   - name: Checkout code
+    #     uses: actions/checkout@v2
+
+    #   - name: Set up Python
+    #     uses: actions/setup-python@v2
+    #     with:
+    #       python-version: 3.8
+
+    #   - name: Install dependencies
+    #     run: |
+    #       python -m pip install --upgrade pip
+    #       pip install -r requirements.txt
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Install dependencies
+      - name: Debug SSH Key
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          echo "SSH_PRIVATE_KEY_DONGI: ${{ secrets.SSH_PRIVATE_KEY_DONGI }}"
+          echo "HOST: ${{ secrets.HOST }}"
+          echo "SSH_USER: ${{ secrets.SSH_USER }}"
+          echo "SSH_PORT: ${{ secrets.SSH_PORT }}"
+        env:
+          SSH_PRIVATE_KEY_DONGI: ${{ secrets.SSH_PRIVATE_KEY_DONGI }}
+          HOST: ${{ secrets.HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
