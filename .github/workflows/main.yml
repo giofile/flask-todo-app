@@ -28,35 +28,33 @@ jobs:
           pytest
 
   deploy:
-    # needs: test
-    # runs-on: ubuntu-latest
-
-    # steps:
-    #   - name: Checkout code
-    #     uses: actions/checkout@v2
-
-    #   - name: Set up Python
-    #     uses: actions/setup-python@v2
-    #     with:
-    #       python-version: 3.8
-
-    #   - name: Install dependencies
-    #     run: |
-    #       python -m pip install --upgrade pip
-    #       pip install -r requirements.txt
+    needs: test
     runs-on: ubuntu-latest
+
     steps:
-      - name: Debug SSH Key
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Change Directory to Flask App
         run: |
-          echo "SSH_PRIVATE_KEY_DONGI: ${{ secrets.SSH_PRIVATE_KEY_DONGI }}"
-          echo "HOST: ${{ secrets.HOST }}"
-          echo "SSH_USER: ${{ secrets.SSH_USER }}"
-          echo "SSH_PORT: ${{ secrets.SSH_PORT }}"
-        env:
-          SSH_PRIVATE_KEY_DONGI: ${{ secrets.SSH_PRIVATE_KEY_DONGI }}
-          HOST: ${{ secrets.HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
+          cd /var/www/html
+          ls -al
+
+      - name: Verify Git Repository
+        run: |
+          git status
+          git remote -v
+        continue-on-error: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
@@ -66,8 +64,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY_DONGI }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /root/ToDoApp
-            git pull origin main  
+            cd /var/www/html 
             source venv/bin/activate
+            git pull origin main 
             pip install -r requirements.txt
-            /root/ToDoApp/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app
+            /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app
+
+      - name: Activate Virtual Environment
+        run: |
+          if [ -f /var/www/html/venv/bin/activate ]; then
+            source /var/www/html/venv/bin/activate
+          else
+             echo "Virtual environment not found."
+          exit 1
+            fi
+        working-directory: /var/www/html
