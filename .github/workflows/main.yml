@@ -56,10 +56,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Debug - Check Virtual Environment
-        run: |
-          ls -al /var/www/html/venv
-        working-directory: /var/www/html
+      # - name: Debug - Check Virtual Environment
+      #   run: |
+      #     ls -al /var/www/html/venv
+      #   working-directory: /var/www/html
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
