@@ -58,7 +58,7 @@ jobs:
 
       - name: Debug - Check Virtual Environment
         run: |
-          ls -al /var/www/html/venv/bin/activate
+          ls -al /var/www/html/venv
         working-directory: /var/www/html
 
       - name: Deploy to Digital Ocean
