@@ -68,7 +68,7 @@ jobs:
             source venv/bin/activate
             git pull origin main 
             pip install -r requirements.txt
-            /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app
+            /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
 
       - name: Activate Virtual Environment
         run: |

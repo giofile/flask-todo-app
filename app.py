@@ -50,4 +50,4 @@ def remove():
 
 # # This block is necessary when you run the app directly (not during testing)
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)

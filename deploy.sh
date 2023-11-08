@@ -12,7 +12,7 @@ PRIVATE_KEY_PATH="C:/Users/dongi/.ssh/id_rsa"
 
 # Application Details
 APP_DIR="/var/www/html"
-APP_START_COMMAND="/var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app"
+APP_START_COMMAND="/var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app"
 
 # Deployment Script
 echo "Deploying Flask Application to Digital Ocean..."
