@@ -56,11 +56,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # - name: Debug - Check Virtual Environment
-      #   run: |
-      #     ls -al /var/www/html/venv
-      #   working-directory: /var/www/html
-
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
         with:
@@ -74,7 +69,7 @@ jobs:
             git pull origin main 
             pip install -r requirements.txt
             /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
-        timeout-minutes: 1
+        timeout-minutes: 10
         continue-on-error: true
 
       - name: Activate Virtual Environment
