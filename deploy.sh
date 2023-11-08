@@ -23,6 +23,16 @@ git clone git@github.com:$GITHUB_USER/$GITHUB_REPO.git
 # Change directory to your Flask app directory
 cd "$APP_DIR"
 
+
+# Activate the virtual environment
+source /var/www/html/venv/bin/activate
+
+
+# Pull the latest changes from the repository
+git pull origin main
+
+
+
 # Copy files to the server using SCP with private key
 scp -i "$PRIVATE_KEY_PATH" -r $GITHUB_REPO/* "$SSH_USER"@"$SERVER_IP":"$APP_DIR"
 
