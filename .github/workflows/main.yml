@@ -56,6 +56,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Activate Virtual Environment
+        run: |
+          python -m venv /var/www/html/venv
+          source /var/www/html/venv/bin/activate
+        continue-on-error: true
+
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
         with:
@@ -65,25 +71,24 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /var/www/html 
-            source venv/bin/activate
             git pull origin main 
             pip install -r requirements.txt
             /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
-        timeout-minutes: 10
+        timeout-minutes: 15
         continue-on-error: true
 
       - name: Check Service Status
         run: |
           sudo systemctl status todoapp.service
-        continue-on-error: true
+        continue-on-error: true # om de workflow te laten doorgaan, ook al gaat het mis
 
-      - name: Activate Virtual Environment
-        run: |
-          if [ -f /var/www/html/venv/bin/activate ]; then
-            source /var/www/html/venv/bin/activate
-          else
-             echo "Virtual environment not found."
-             exit 1
-          fi
-        working-directory: /var/www/html
-        continue-on-error: true
+      # - name: Activate Virtual Environment
+      #   run: |
+      #     if [ -f /var/www/html/venv/bin/activate ]; then
+      #       source /var/www/html/venv/bin/activate
+      #     else
+      #        echo "Virtual environment not found."
+      #        exit 1
+      #     fi
+      #   working-directory: /var/www/html
+      #   continue-on-error: true
