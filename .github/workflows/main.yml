@@ -72,11 +72,20 @@ jobs:
       # - name: Kill existing Gunicorn processes
       #   run: sudo pkill gunicorn || true
 
+      # - name: Kill existing Gunicorn processes
+      #   run: sudo pkill -f 'gunicorn.*8000' || true
+
+      - name: Verify port availability
+        run: sudo lsof -i :8000 || true
+
+      - name: Kill process using port 8000
+        run: sudo fuser -k 8000/tcp || true
+
       - name: Check processes on port 8000 (after)
         run: sudo lsof -i :8000 || true
 
       - name: Add a delay
-        run: sleep 5
+        run: sleep 10
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
