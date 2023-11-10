@@ -54,24 +54,20 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install pip in Virtual Environment
+      - name: Create and Activate Virtual Environment
         run: |
-          source /var/www/html/venv/bin/activate
+          python -m venv venv
+          source venv/bin/activate
           python -m pip install --upgrade pip
         continue-on-error: true
 
-      - name: Activate Virtual Environment
+      - name: Install dependencies
         run: |
-          source /var/www/html/venv/bin/activate
+          pip install -r requirements.txt
         continue-on-error: true
 
       - name: Kill process using port 8000
-        run: sudo killall -9 gunicorn || true
-
-      - name: Verify port 8000 is released
-        run: |
-          sudo lsof -i :8000 || true
-        continue-on-error: true
+        run: sudo fuser -k 8000/tcp || true
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
