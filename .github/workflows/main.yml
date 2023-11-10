@@ -66,8 +66,8 @@ jobs:
           pip install -r requirements.txt
         continue-on-error: true
 
-      - name: Check processes on port 8000 (before)
-        run: sudo lsof -i :8000 || true
+      # - name: Check processes on port 8000 (before)
+      #   run: sudo lsof -i :8000 || true
 
       # - name: Kill existing Gunicorn processes
       #   run: sudo pkill gunicorn || true
@@ -75,17 +75,19 @@ jobs:
       # - name: Kill existing Gunicorn processes
       #   run: sudo pkill -f 'gunicorn.*8000' || true
 
-      - name: Verify port availability
-        run: sudo lsof -i :8000 || true
+      # - name: Verify port availability
+      #   run: sudo lsof -i :8000 || true
 
-      - name: Kill process using port 8000
-        run: sudo fuser -k 8000/tcp || true
+      # - name: Kill process using port 8000
+      #   run: sudo fuser -k 8000/tcp || true
 
-      - name: Check processes on port 8000 (after)
-        run: sudo lsof -i :8000 || true
+      # - name: Check processes on port 8000 (after)
+      #   run: sudo lsof -i :8000 || true
 
-      - name: Add a delay
-        run: sleep 10
+      # - name: Add a delay
+      #   run: sleep 10
+
+      # /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
 
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
@@ -98,8 +100,9 @@ jobs:
             cd /var/www/html 
             source venv/bin/activate
             git pull origin main 
-            pip install -r requirements.txt
-            /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
+            pip install -r requirements.txt            
+            /var/www/html/venv/bin/gunicorn -w 4 -b 0.0.0.0 app:app
+
         timeout-minutes: 15
         continue-on-error: true
 
