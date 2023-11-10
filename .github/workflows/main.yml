@@ -72,6 +72,11 @@ jobs:
         timeout-minutes: 10
         continue-on-error: true
 
+      - name: Check Service Status
+        run: |
+          sudo systemctl status todoapp.service
+        continue-on-error: true
+
       - name: Activate Virtual Environment
         run: |
           if [ -f /var/www/html/venv/bin/activate ]; then
