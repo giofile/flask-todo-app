@@ -62,6 +62,9 @@ jobs:
           source /var/www/html/venv/bin/activate
         continue-on-error: true
 
+      - name: Kill process using port 8000
+        run: sudo fuser -k 8000/tcp || true
+
       - name: Deploy to Digital Ocean
         uses: appleboy/ssh-action@master
         with:
@@ -80,7 +83,7 @@ jobs:
       - name: Check Service Status
         run: |
           sudo systemctl status todoapp.service
-        continue-on-error: true # om de workflow te laten doorgaan, ook al gaat het mis
+        continue-on-error: true
 
       # - name: Activate Virtual Environment
       #   run: |
