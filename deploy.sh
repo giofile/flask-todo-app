@@ -31,7 +31,11 @@ source /var/www/html/venv/bin/activate
 # Pull the latest changes from the repository
 git pull origin main
 
+# Kill processes using port 8000
+sudo fuser -k 8000/tcp || true
 
+# Add a delay of 5 seconds
+sleep 5
 
 # Copy files to the server using SCP with private key
 scp -i "$PRIVATE_KEY_PATH" -r $GITHUB_REPO/* "$SSH_USER"@"$SERVER_IP":"$APP_DIR"
