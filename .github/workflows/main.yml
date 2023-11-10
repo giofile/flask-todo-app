@@ -67,13 +67,13 @@ jobs:
         continue-on-error: true
 
       - name: Check processes on port 8000 (before)
-        run: sudo lsof -i :8000
+        run: sudo lsof -i :8000 || true
 
       # - name: Kill existing Gunicorn processes
       #   run: sudo pkill gunicorn || true
 
       - name: Check processes on port 8000 (after)
-        run: sudo lsof -i :8000
+        run: sudo lsof -i :8000 || true
 
       - name: Add a delay
         run: sleep 5
