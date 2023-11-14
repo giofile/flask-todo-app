@@ -51,4 +51,4 @@ jobs:
             sudo systemctl status todoapp.service
 
         timeout-minutes: 15
-        continue-on-error: true
+        continue-on-error: false
